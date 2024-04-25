@@ -1,6 +1,8 @@
 from aiogram import types
 import random
 from datetime import datetime, timedelta
+
+import config
 from data_management import update_user_data, get_top_10_users, get_antitop_10_users, set_promo_used, get_user_data, \
     check_and_reset_promo,read_data
 
@@ -35,15 +37,15 @@ async def handle_size_change(message: types.Message):
     if message.chat.type == types.ChatType.GROUP or message.chat.type == types.ChatType.SUPERGROUP:
         chat_id = message.chat.id  # Получаем chat_id текущего чата
         username = message.from_user.username
-
+        delay = config.EXCLUSIVE_DELAY_WHITELIST.get(chat_id, 3600)
         # Проверка времени последнего обновления
         user_data = get_user_data(chat_id, username)
         if user_data and 'last_update' in user_data:
             last_update_time = datetime.fromisoformat(user_data['last_update'])
             current_time = datetime.now()
             time_difference = current_time - last_update_time
-            if time_difference < timedelta(hours=1):
-                hours, remainder = divmod((timedelta(hours=1) - time_difference).seconds, 3600)
+            if time_difference < timedelta(seconds=delay):
+                hours, remainder = divmod((timedelta(seconds=delay) - time_difference).seconds, 3600)
                 minutes = remainder // 60
                 await message.reply(
                     f"Вы уже использовали эту функцию сегодня. Следующая попытка через {hours} часов {minutes} минут!\nhttps://t.me/c/1626228917/219140\nhttps://t.me/c/1626228917/219141\nhttps://t.me/c/1626228917/219146")
@@ -58,11 +60,11 @@ async def handle_size_change(message: types.Message):
         new_size, position = update_user_data(chat_id, username, change)  # Передаем chat_id, username и change
 
         if new_size is None:
-            await message.reply("Вы уже использовали эту функцию сегодня. Следующая попытка через час!")
+            await message.reply("Вы уже использовали эту функцию сегодня. Следующая попытка через {hours} часов {minutes}!")
             return
 
         await message.reply(
-            f"@{username}, твой показатель изменился на {change:.1f} см. Теперь он равен {new_size} см. Ты занимаешь {position} место в рейтинге. Следующая попытка через час!\nhttps://t.me/c/1626228917/219140\nhttps://t.me/c/1626228917/219141\nhttps://t.me/c/1626228917/219146")
+            f"@{username}, твой показатель изменился на {change:.1f} см. Теперь он равен {new_size} см. Ты занимаешь {position} место в рейтинге. Следующая попытка через {delay//3600} час!\nhttps://t.me/c/1626228917/219140\nhttps://t.me/c/1626228917/219141\nhttps://t.me/c/1626228917/219146")
     else:
         await message.reply("Эта команда доступна только в беседах.")
 

@@ -1,11 +1,8 @@
-import time
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.dispatcher.filters import Command, Text
+from aiogram.dispatcher.filters import Command
 import openai
 import asyncio
-import os
-from gtts import gTTS
-from tokens import OPENAI_API_KEY, TELEGRAM_TOKEN
+from config import OPENAI_API_KEY, TELEGRAM_TOKEN
 from logging_utils import notify_admin_and_log
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
