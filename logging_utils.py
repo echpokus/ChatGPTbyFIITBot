@@ -1,7 +1,7 @@
 import logging
 import re
 import csv
-from tokens import ADMIN_USER_ID
+from config import ADMIN_USER_ID
 
 LOGS_TXT_FILE = 'chat_logs.txt'
 LOGS_CSV_FILE = 'logs.csv'

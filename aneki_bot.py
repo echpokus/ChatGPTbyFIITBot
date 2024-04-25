@@ -2,7 +2,7 @@ import logging
 from aiogram import Bot, Dispatcher, executor, types
 import random
 import csv
-from tokens import TELEGRAM_TOKEN  # Убедитесь, что у вас есть файл tokens.py с переменной TELEGRAM_TOKEN
+from config import TELEGRAM_TOKEN  # Убедитесь, что у вас есть файл config.py с переменной TELEGRAM_TOKEN
 
 # Конфигурация логирования
 logging.basicConfig(level=logging.INFO)

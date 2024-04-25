@@ -82,7 +82,7 @@ async def handle_family(message: types.Message):
 
 # Начало бота
 if __name__ == '__main__':
-    from tokens import TELEGRAM_TOKEN
+    from config import TELEGRAM_TOKEN
 
     # Создание бота и диспетчера
     bot = Bot(token=TELEGRAM_TOKEN)

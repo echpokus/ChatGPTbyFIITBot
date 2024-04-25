@@ -1,6 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types
-from tokens import TELEGRAM_TOKEN
+from config import TELEGRAM_TOKEN
 from family_bot import handle_wedding, handle_divorce, handle_family
 from gpt_chat_commands import setup_gpt_chat_handlers
 from pipiska_bot_commands import setup_handlers
